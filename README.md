@@ -2,6 +2,10 @@
 
 API REST para aplicar tipos de cambio a montos, construida con **Quarkus**, el framework Java supersónico y subatómico diseñado para Kubernetes.
 
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+![Java](https://img.shields.io/badge/Java-11+-orange)
+![Quarkus](https://img.shields.io/badge/Quarkus-3.6.4-blue)
+
 ## 📋 Tabla de Contenidos
 
 - [Características](#-características)
