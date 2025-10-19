@@ -93,7 +93,7 @@ public class MonedaService {
      * @return Moneda actualizada
      */
     @Transactional
-    public MonedaEntity actualizarMoneda(String nombreMoneda, MonedaEntity monedaActualizada) {
+    public MonedaEntity actualizarMoneda(String nombreMoneda, MonedaEntity monedaActualizada) throws Exception {
         // Normalizar nombre
         String nombreNormalizado = Util.normalizarCadena(nombreMoneda);
 
@@ -111,7 +111,6 @@ public class MonedaService {
 
         // Panache actualiza automáticamente al estar en transacción
         monedaExistente.persist();
-
         LOG.infof("Moneda actualizada: ID=%d, Nuevo nombre=%s, Nuevo tipo cambio=%s",
                 monedaExistente.id, monedaExistente.nombreMoneda, monedaExistente.tipoCambio);
 

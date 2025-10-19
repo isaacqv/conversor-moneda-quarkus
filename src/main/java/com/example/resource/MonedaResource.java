@@ -127,15 +127,13 @@ public class MonedaResource {
         }
     }
 
-
+    /**
+     * 4. BUSCAR MONEDA POR NOMBRE
+     * GET /api/conversor/moneda/{nombreMoneda}
+     */
     @GET
     @Path("/moneda/{nombre}")
     public Response buscarNombre(@PathParam("nombre") String nombre) {
-        //MonedaEntity monedaOpt = MonedaEntity.findByNombreMoneda(nombre);
-        //System.out.println("Metodo @GET:"+monedaOpt.toString());
-        /*return monedaOpt
-                .map(monedaResult -> Response.ok(monedaResult).build())
-                .orElse(Response.status(Response.Status.NOT_FOUND).build());*/
         LOG.infof("GET /api/conversor/moneda/%d - Buscando moneda", nombre);
         MonedaEntity moneda = MonedaEntity.findByNombreMoneda(nombre);
         if (moneda == null) {
@@ -144,6 +142,15 @@ public class MonedaResource {
         return Response.ok(moneda).build();
     }
 
+    /**
+     * 5. ACTUALIZAR PARCIAL MONEDA
+     * PATCH /api/conversor/moneda/{nombreMoneda}
+     *
+     * Ejemplo Request:
+     * {
+     *   "tipoCambio": 3.75
+     * }
+     */
     @PATCH
     @Path("/moneda/{nombre}")
     @Transactional
@@ -188,7 +195,7 @@ public class MonedaResource {
     }
 
     /**
-     * 4. ACTUALIZAR MONEDA
+     * 6. ACTUALIZAR MONEDA
      * PUT /api/conversor/moneda/{nombreMoneda}
      *
      * Ejemplo Request:
@@ -216,11 +223,16 @@ public class MonedaResource {
                     "Not Found",
                     e.getMessage());
             return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+        } catch (Exception e) {
+            ErrorResponse error = new ErrorResponse(406,
+                    "No se puede actualizar!, existe otra moneda con el nombre: " + moneda.nombreMoneda +" - VALIDAR!",
+                    e.getMessage());
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(error).build();
         }
     }
 
     /**
-     * 5. ELIMINAR MONEDA
+     * 7. ELIMINAR MONEDA
      * DELETE /api/conversor/moneda/{id}
      */
     @DELETE
@@ -243,7 +255,7 @@ public class MonedaResource {
     }
 
     /**
-     * 6. CALCULAR CONVERSIÓN (MÉTODO PRINCIPAL)
+     * 8. CALCULAR CONVERSIÓN (MÉTODO PRINCIPAL)
      * POST /api/conversor/calcular
      *
      * Ejemplo Request:
